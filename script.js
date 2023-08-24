@@ -11,6 +11,7 @@ const popupBackground = document.getElementById("popupBackground");
 const startButton = document.getElementById("startButton");
 const continueButton = document.getElementById("continueButton");
 const selectedDifficulty = document.getElementById("select-difficulty")
+const ballContainer = document.querySelector(".ball-container");
 
 // Função para atualizar o timer
 function updateTimer() {
@@ -42,10 +43,14 @@ function createBalls(numbersBalls) {
         var newBall = document.createElement("div");
         newBall.className = "ball";
 
-        newBall.style.left = (Math.random() * (window.innerWidth - 60)) + "px";
-        newBall.style.top = (Math.random() * (window.innerHeight - 60)) + "px";
+        // Define posições aleatórias dentro do contêiner
+        var randomX = Math.random() * (ballContainer.offsetWidth - 60);
+        var randomY = Math.random() * (ballContainer.offsetHeight - 60);
 
-        document.body.appendChild(newBall);
+        newBall.style.left = randomX + "px";
+        newBall.style.top = randomY + "px";
+
+        ballContainer.appendChild(newBall);
     }
 }
 
@@ -70,15 +75,15 @@ function ballsConfig(speed, numbersBalls) {
         setInterval(function () {
             if (!pause) {
                 var rect = ball.getBoundingClientRect();
-
-                if (rect.left <= 0 || rect.right >= window.innerWidth) {
+    
+                if (rect.left <= 0 || rect.right >= ballContainer.offsetWidth) {
                     xSpeed *= -1;
                 }
-
-                if (rect.top <= 0 || rect.bottom >= window.innerHeight) {
+    
+                if (rect.top <= 0 || rect.bottom >= ballContainer.offsetHeight) {
                     ySpeed *= -1;
                 }
-
+    
                 ball.style.left = (parseFloat(ball.style.left) + xSpeed) + "px";
                 ball.style.top = (parseFloat(ball.style.top) + ySpeed) + "px";
             }
